@@ -1,0 +1,64 @@
+# --- ОС ---
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.cache/
+*.swp
+
+# --- Visual Studio ---
+.vs/
+*.vcxproj
+*.vcxproj.*
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+
+# --- Visual Studio Code ---
+.vscode/
+*.code-workspace
+
+# --- CMake ---
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+build/
+out/
+
+# --- Сборочные артефакты ---
+*.exe
+*.dll
+*.lib
+*.so
+*.a
+*.o
+*.obj
+*.pdb
+*.idb
+
+# --- Логи ---
+*.log
+
+# --- Data ---
+*.csv
+
+# --- Другие временные файлы ---
+*.tmp
+*.bak
+*.old

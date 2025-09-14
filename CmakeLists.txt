@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.20)
+
+project(PortfolioManager LANGUAGES CXX)
+
+set(CMAKE_CXXSTANDART 20)
+set(CMAKE_CXX_STANDART_REQUIRED ON)
+
+add_subdirectory(src/asset)
+
+add_executable(main src/main.cpp)
+
+target_link_libraries(main PRIVATE asset)
