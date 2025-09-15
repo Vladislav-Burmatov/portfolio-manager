@@ -1,17 +1,18 @@
 #include <iostream>
+#include <string>
 
-#include "asset/asset.h"
+#include "Asset.h"
 
 int main() {
 	std::string name = "Apple regular stock";
 	std::string ticker = "AAPL";
 	Asset A(name, ticker);
 
-	A.readPricesFromFile();
+	A.readFromFile();
 	std::vector<double> A_prices = A.prices();
-	std::vector<std::string> A_dates = A.dates();
+	std::vector<PriceRecord> A_quotes = A.quotes();
 	for (int i = 0; i < A_prices.size(); i++) {
-		std::cout << A_dates[i] << " " << A_prices[i] << "\n";
+		std::cout << A_quotes[i].date.toString() << " " << A_quotes[i].price << " " << A_prices[i] << "\n";
 	}
 	return 0;
  }
