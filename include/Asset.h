@@ -20,7 +20,9 @@ public:
     std::vector<double> prices();
     std::vector<PriceRecord> quotes();
 
-    int readFromFile();
+    void readFromFile();
+
+    double getYields(Date starting, Date ending);
 };
 
 #endif

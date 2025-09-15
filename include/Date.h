@@ -11,9 +11,16 @@ struct Date {
     Date();
     Date(int m, int d, int y);
 
+    bool Date::operator==(const Date& other) const;
+    bool Date::operator!=(const Date& other) const;
+    bool Date::operator<(const Date& other) const;
+    bool Date::operator>(const Date& other) const;
+    bool Date::operator<=(const Date& other) const;
+    bool Date::operator>=(const Date& other) const;
+
     static Date fromString(const std::string& s);
 
-    std::string toString();
+    std::string toString() const;
 };
 
 #endif

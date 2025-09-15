@@ -7,6 +7,18 @@ Date::Date() : year(0), month(0), day(0) {}
 
 Date::Date(int m, int d, int y) : year(y), month(m), day(d) {}
 
+bool Date::operator==(const Date& other) const { return (month == other.month && day == other.day && year == other.year); }
+bool Date::operator!=(const Date& other) const { return !(*this == other); }
+bool Date::operator<(const Date& other) const {
+    if (year < other.year) { return true; }
+    if (month < other.month) { return true; }
+    if (day < other.day) { return true; }
+    return false;
+}
+bool Date::operator>(const Date& other) const { return (other < *this); }
+bool Date::operator<=(const Date& other) const { return !(other < *this); }
+bool Date::operator>=(const Date& other) const { return !(*this < other); }
+
 Date Date::fromString(const std::string& s) {
     Date date;
     char delimeter1, delimeter2;
@@ -22,7 +34,7 @@ Date Date::fromString(const std::string& s) {
     return date;
 }
 
-std::string Date::toString() {
+std::string Date::toString() const {
     std::ostringstream oss;
     oss << std::setfill('0')
         << std::setw(2) << month << "/"

@@ -14,5 +14,11 @@ int main() {
 	for (int i = 0; i < A_prices.size(); i++) {
 		std::cout << A_quotes[i].date.toString() << " " << A_quotes[i].price << " " << A_prices[i] << "\n";
 	}
+	Date s(8, 27, 2025);
+	Date e(9, 3, 2025);
+	std::cout << s.toString() << " " << e.toString() << "\n";
+	double y;
+	y = A.getYields(s, e);
+	std::cout << "\n" << y << "\n";
 	return 0;
  }

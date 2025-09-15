@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <windows.h>
+#include <algorithm>
 
 Asset::Asset(const std::string& name, const std::string& ticker) : name_(name), ticker_(ticker) {}
 
@@ -23,15 +23,9 @@ std::vector<double> Asset::prices() {
     return prices; 
 }
 
-int Asset::readFromFile() {
+void Asset::readFromFile() {
     std::ifstream file("../../../../data/" + ticker_ + ".csv");
     std::string line;
-
-    TCHAR buffer[MAX_PATH];
-    DWORD length = GetCurrentDirectory(MAX_PATH, buffer);
-    if (length != 0 && length < MAX_PATH) {
-        std::wcout << L"Current working directory: " << buffer << std::endl;
-    }
 
     if (!file.is_open()) {
         throw std::runtime_error("Couldn't read the file " + ticker_ + ".csv");
@@ -42,7 +36,7 @@ int Asset::readFromFile() {
         std::stringstream ss(line);
         std::string token;
         Date date;
-        double price;
+        double price=1;
 
         int token_index = 0;
         while (std::getline(ss, token, ',')) {
@@ -56,6 +50,24 @@ int Asset::readFromFile() {
         }
         quotes_.push_back(PriceRecord(date, price));
     }
+
     file.close();
-    return 0;
+
+    std::reverse(quotes_.begin(), quotes_.end());
+}
+
+double Asset::getYields(Date starting_date, Date ending_date) {
+    int i = 0;
+    double starting_price = 1;
+    double ending_price = 1;
+    while (i < quotes_.size()) {
+        if (quotes_[i].date == starting_date) {
+            starting_price = quotes_[i].price;
+        }
+        if (quotes_[i].date == ending_date) {
+            ending_price = quotes_[i].price;
+        }
+        i++;
+    }
+    return ending_price / starting_price - 1;
 }
