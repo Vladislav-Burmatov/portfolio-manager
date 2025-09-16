@@ -4,11 +4,16 @@
 #include "Asset.h"
 
 int main() {
+	Date d(12, 16, 2025);
+	std::cout << d.toString() << "\n";
+
 	std::string name = "Apple regular stock";
 	std::string ticker = "AAPL";
 	Asset A(name, ticker);
 
-	A.readFromFile();
+
+
+	/*A.readFromFile();
 	std::vector<double> A_prices = A.prices();
 	std::vector<PriceRecord> A_quotes = A.quotes();
 	for (int i = 0; i < A_prices.size(); i++) {
@@ -20,5 +25,5 @@ int main() {
 	double y;
 	y = A.getYields(s, e);
 	std::cout << "\n" << y << "\n";
-	return 0;
+	return 0;*/
  }

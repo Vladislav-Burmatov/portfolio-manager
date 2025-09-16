@@ -3,20 +3,27 @@
 #include <sstream>
 #include <iomanip>
 
-Date::Date() : year(0), month(0), day(0) {}
+Date::Date() : year(BoundedInt<1, 3000>(1)), month(BoundedInt<1, 12>(1)), day(BoundedInt<1, 31>(1)) {}
 
-Date::Date(int m, int d, int y) : year(y), month(m), day(d) {}
+Date::Date(int m, int d, int y) : year(BoundedInt<1, 3000>(y)), month(BoundedInt<1, 12>(m)), day(BoundedInt<1, 31>(d)) {}
 
 bool Date::operator==(const Date& other) const { return (month == other.month && day == other.day && year == other.year); }
+
 bool Date::operator!=(const Date& other) const { return !(*this == other); }
+
 bool Date::operator<(const Date& other) const {
     if (year < other.year) { return true; }
+    else if (year > other.year) { return false; }
     if (month < other.month) { return true; }
+    else if (month > other.month) { return false; }
     if (day < other.day) { return true; }
     return false;
 }
+
 bool Date::operator>(const Date& other) const { return (other < *this); }
+
 bool Date::operator<=(const Date& other) const { return !(other < *this); }
+
 bool Date::operator>=(const Date& other) const { return !(*this < other); }
 
 Date Date::fromString(const std::string& s) {

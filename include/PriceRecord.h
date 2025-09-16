@@ -8,6 +8,9 @@ struct PriceRecord {
     double price;
 
     PriceRecord(const Date& d, double p);
+
+    bool PriceRecord::operator==(const PriceRecord& other) const;
+    bool PriceRecord::operator!=(const PriceRecord& other) const;
 };
 
 #endif
