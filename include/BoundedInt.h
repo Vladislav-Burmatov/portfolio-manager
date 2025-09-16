@@ -6,10 +6,9 @@
 
 template <int lower_bound, int higher_bound>
 class BoundedInt {
-private:
+public:
 	int value;
 
-public:
 	explicit BoundedInt(int v) {
 		if (v < lower_bound || v > higher_bound) {
 			throw std::runtime_error("Value " + std::to_string(v) + 

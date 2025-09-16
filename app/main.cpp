@@ -4,26 +4,19 @@
 #include "Asset.h"
 
 int main() {
-	Date d(12, 16, 2025);
-	std::cout << d.toString() << "\n";
+
+	Date d(8, 29, 2025);
 
 	std::string name = "Apple regular stock";
 	std::string ticker = "AAPL";
 	Asset A(name, ticker);
+	A.loadFromFile();
 
-
-
-	/*A.readFromFile();
-	std::vector<double> A_prices = A.prices();
-	std::vector<PriceRecord> A_quotes = A.quotes();
-	for (int i = 0; i < A_prices.size(); i++) {
-		std::cout << A_quotes[i].date.toString() << " " << A_quotes[i].price << " " << A_prices[i] << "\n";
-	}
-	Date s(8, 27, 2025);
-	Date e(9, 3, 2025);
-	std::cout << s.toString() << " " << e.toString() << "\n";
-	double y;
-	y = A.getYields(s, e);
-	std::cout << "\n" << y << "\n";
-	return 0;*/
+	std::cout << ticker << " " << name << "\n";
+	std::cout << A.getFirstDate().toString() << " " << A.getLastDate().toString() << "\n";
+	std::cout << A.getHistoryLength() << " quotes \n";
+	std::cout << "closest " << A.getPriceOnDate(d, Asset::DatePolicy::Closest) << "\n"
+		<< "previous " << A.getPriceOnDate(d, Asset::DatePolicy::PreviousAvailable) << "\n"
+		<< "next " << A.getPriceOnDate(d, Asset::DatePolicy::NextAvailable) << "\n";
+	std::cout << "exact " << A.getPriceOnDate(d, Asset::DatePolicy::Exact);
  }
