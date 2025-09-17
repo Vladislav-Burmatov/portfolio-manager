@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <vector>
 
+Date::Date() : year(BoundedInt<1, 3000>(1)), month(BoundedInt<1, 12>(1)), day(BoundedInt<1, 31>(1)) {}
+
 Date::Date(int m, int d, int y) : year(BoundedInt<1, 3000>(y)), month(BoundedInt<1, 12>(m)), day(BoundedInt<1, 31>(d)) {}
 
 bool Date::operator==(const Date& other) const { return (month == other.month && day == other.day && year == other.year); }
@@ -41,8 +43,8 @@ int Date::daysSinceZero() const {
     return days_since_zero;
 }
 
-int Date::daysBetween(Date other) {
-    int self_days_since_0 = (*this).daysSinceZero();
+int Date::daysBetween(Date other) const {
+    int self_days_since_0 = this->daysSinceZero();
     int other_days_since_0 = other.daysSinceZero();
 
     return std::abs(self_days_since_0 - other_days_since_0);

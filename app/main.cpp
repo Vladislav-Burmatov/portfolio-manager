@@ -25,7 +25,7 @@ int main() {
 
 	std::cout << "Distanceeeees: " << d.daysBetween(d1) << " " << d.daysBetween(d2) << "\n";
 
-	try { std::cout << "closest " << A.getPriceOnDate(d) << "\n"; }
+	try { std::cout << "closest " << A.getPriceOnDate(d, Asset::DatePolicy::Closest) << "\n"; }
 	catch (std::runtime_error) { std::cout << "couldn't find closest for " + d.toString() + "\n"; }
 
 	try { std::cout << "previous " << A.getPriceOnDate(d, Asset::DatePolicy::PreviousAvailable) << "\n"; }
@@ -37,5 +37,9 @@ int main() {
 	try { std::cout << "exact " << A.getPriceOnDate(d, Asset::DatePolicy::Exact) << "\n"; }
 	catch (std::runtime_error) { std::cout << "couldn't find exact for " + d.toString() + "\n"; }
 
-	std::cout << A.getReturnBetweenDates(A.getFirstDate(), A.getLastDate(), Asset::DatePolicy::Closest, Asset::ReturnType::Simple);
+	std::cout << A.getReturnBetweenDates(A.getFirstDate(), A.getLastDate(), Asset::DatePolicy::Closest, Asset::ReturnType::Simple) << "\n";
+	std::cout << "New functions \n";
+	std::cout << A.getAverageReturn(Asset::AverageType::Arithmetic) << " ";
+	std::cout << A.getAverageReturn(Asset::AverageType::Logarithmic) << " ";
+	std::cout << A.getAverageReturn(Asset::AverageType::Geometric);
  }

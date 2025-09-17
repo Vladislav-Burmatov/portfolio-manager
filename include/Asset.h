@@ -33,11 +33,17 @@ public:
 
     enum class ReturnType { Simple, Logarithmic };
 
-    double getPriceOnDate(Date date, DatePolicy policy = DatePolicy::Closest);
+    enum class AverageType { Arithmetic, Geometric, Logarithmic };
 
-    double getReturnBetweenDates(Date starting, Date ending, DatePolicy policy = DatePolicy::Closest, ReturnType returns = ReturnType::Simple);
+    int findDateInHistory(Date target_date);
 
-    std::vector<double> getAllReturns(ReturnType returns = ReturnType::Simple);
+    double getPriceOnDate(Date date, DatePolicy policy);
+
+    double getReturnBetweenDates(Date starting, Date ending, DatePolicy policy, ReturnType returns);
+
+    double getAverageReturn(Date starting_date, Date ending_date, AverageType average_type);
+
+    double getAverageReturn(AverageType average_type);
 };
 
 #endif

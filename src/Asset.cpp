@@ -83,7 +83,6 @@ double Asset::getPriceOnDate(Date target_date, DatePolicy policy) {
         case DatePolicy::Exact:
             if (it != history_.end() && it->date == target_date) { return it->price; }
             throw std::runtime_error("No data on " + target_date.toString() + " for " + ticker_ + " " + name_);
-
         case DatePolicy::PreviousAvailable:
             if (it != history_.begin()) {
                 if (it != history_.end() && it->date == target_date) { return it->price; }
@@ -105,14 +104,13 @@ double Asset::getPriceOnDate(Date target_date, DatePolicy policy) {
             if (days_between_next < days_between_prev) { return it->price; }
             return std::prev(it)->price;
     }
-    throw std::runtime_error("Wrong Date Policy");
 }
 
 double Asset::getReturnBetweenDates(Date starting_date, Date ending_date, DatePolicy policy, ReturnType returns) {
     if (history_.empty() || history_.size() < 2) { throw std::runtime_error("History of " + ticker_ + " " + " is to short"); }
 
-    double starting_price = (*this).getPriceOnDate(starting_date, policy);
-    double ending_price = (*this).getPriceOnDate(ending_date, policy);
+    double starting_price = this->getPriceOnDate(starting_date, policy);
+    double ending_price = this->getPriceOnDate(ending_date, policy);
 
     switch (returns) {
     case ReturnType::Simple:
@@ -120,4 +118,65 @@ double Asset::getReturnBetweenDates(Date starting_date, Date ending_date, DatePo
     case ReturnType::Logarithmic:
         return std::log(ending_price / starting_price);
     }
+}
+
+double Asset::getAverageReturn(Date starting_date, Date ending_date, AverageType average_type) {
+    if (starting_date >= this->getLastDate() || ending_date <= this->getFirstDate()) {
+        throw std::runtime_error("History between " + starting_date.toString() + " and " + ending_date.toString() + " is too short");
+    }
+
+    auto it = std::lower_bound(history_.begin(), history_.end(), starting_date,
+        [](const PriceRecord& record, const Date& date) { return record.date < date; });
+
+    double result = 0;
+    double first_price = 0;
+    double last_price = 0;
+    int number_of_elements = 0;
+
+    switch (average_type) {
+    case AverageType::Arithmetic:
+        while (std::next(it) != history_.end()) {
+            if (std::next(it)->date <= ending_date) {
+                result += ((std::next(it)->price) - (it->price)) / (it->price);
+                number_of_elements++;
+                ++it;
+            }
+        }
+        result = result / number_of_elements;
+        break;
+    case AverageType::Logarithmic:
+        first_price = it->price;
+        while (std::next(it) != history_.end()) {
+            if (std::next(it)->date <= ending_date) {
+                number_of_elements++;
+                ++it;
+            }
+        }
+        last_price = it->price;
+        result = std::log(last_price / first_price) / number_of_elements;
+        break;
+    case AverageType::Geometric:
+        first_price = it->price;
+        while (std::next(it) != history_.end()) {
+            if (std::next(it)->date <= ending_date) {
+                number_of_elements++;
+                ++it;
+            }
+        }
+        last_price = it->price;
+        result = std::exp(std::log(last_price / first_price) / number_of_elements) - 1;
+        break;
+    }
+    return result;
+}
+
+double Asset::getAverageReturn(AverageType average_type) {
+    if (history_.empty()) {
+        throw std::runtime_error("History of " + ticker_ + " is empty");
+    }
+
+    Date first_date = this->getFirstDate();
+    Date last_date = this->getLastDate();
+
+    return this->getAverageReturn(first_date, last_date, average_type);
 }
