@@ -1,0 +1,17 @@
+<type>(<scope>): <short summary>
+# <type>  : feat | fix | docs | style | refactor | perf | test | chore
+# <scope> : необязательный контекст (ui, api, auth, db, etc.)
+# Заголовок ≤ 50 символов, в повелительном наклонении
+# Пример: feat(auth): add JWT authentication
+
+# --- Пустая строка перед телом обязательна ---
+
+<detailed body>
+# Подробное описание изменений (каждая строка ≤ 72 символов).
+# Объясните не только ЧТО изменилось, но и ПОЧЕМУ.
+# Можно указывать последствия и дополнительные детали.
+
+# Примеры:
+# - Fixed null pointer exception when user profile is missing
+# - Improved DB query performance by adding an index
+# - Added dark mode toggle in settings

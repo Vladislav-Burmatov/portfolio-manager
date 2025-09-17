@@ -10,7 +10,6 @@ struct Date {
     BoundedInt<1, 12> month;
     BoundedInt<1, 3000> year;
 
-    Date();
     Date(int m, int d, int y);
 
     bool operator==(const Date& other) const;

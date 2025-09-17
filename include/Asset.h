@@ -31,9 +31,13 @@ public:
 
     enum class DatePolicy { Exact, Closest, PreviousAvailable, NextAvailable };
 
+    enum class ReturnType { Simple, Logarithmic };
+
     double getPriceOnDate(Date date, DatePolicy policy = DatePolicy::Closest);
 
-    double getYields(Date starting, Date ending);
+    double getReturnBetweenDates(Date starting, Date ending, DatePolicy policy = DatePolicy::Closest, ReturnType returns = ReturnType::Simple);
+
+    std::vector<double> getAllReturns(ReturnType returns = ReturnType::Simple);
 };
 
 #endif

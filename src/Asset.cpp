@@ -6,6 +6,7 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 Asset::Asset(const std::string& name, const std::string& ticker) : name_(name), ticker_(ticker) {}
 
@@ -107,18 +108,16 @@ double Asset::getPriceOnDate(Date target_date, DatePolicy policy) {
     throw std::runtime_error("Wrong Date Policy");
 }
 
-double Asset::getYields(Date starting_date, Date ending_date) {
-    int i = 0;
-    double starting_price = 1;
-    double ending_price = 1;
-    while (i < history_.size()) {
-        if (history_[i].date == starting_date) {
-            starting_price = history_[i].price;
-        }
-        if (history_[i].date == ending_date) {
-            ending_price = history_[i].price;
-        }
-        i++;
+double Asset::getReturnBetweenDates(Date starting_date, Date ending_date, DatePolicy policy, ReturnType returns) {
+    if (history_.empty() || history_.size() < 2) { throw std::runtime_error("History of " + ticker_ + " " + " is to short"); }
+
+    double starting_price = (*this).getPriceOnDate(starting_date, policy);
+    double ending_price = (*this).getPriceOnDate(ending_date, policy);
+
+    switch (returns) {
+    case ReturnType::Simple:
+        return (ending_price - starting_price) / starting_price;
+    case ReturnType::Logarithmic:
+        return std::log(ending_price / starting_price);
     }
-    return ending_price / starting_price - 1;
 }
