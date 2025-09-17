@@ -31,7 +31,7 @@ public:
 
     enum class DatePolicy { Exact, Closest, PreviousAvailable, NextAvailable };
 
-    double getPriceOnDate(Date date, DatePolicy policy);
+    double getPriceOnDate(Date date, DatePolicy policy = DatePolicy::Closest);
 
     double getYields(Date starting, Date ending);
 };

@@ -27,26 +27,25 @@ bool Date::operator<=(const Date& other) const { return !(other < *this); }
 
 bool Date::operator>=(const Date& other) const { return !(*this < other); }
 
-int Date::daysBetween(const Date& other) {
-    int self_days_since_0;
-    int other_days_since_0;
-    std::vector<int> days_since_year_start = {0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
+int Date::daysSinceZero() const {
+    int days_since_zero;
+    std::vector<int> days_since_year_start = { 0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
-    self_days_since_0 = 365 * (year.value - 1) + 
-                        ((year.value - 1) / 4) - 
-                        ((year.value - 1) / 100) + 
-                        ((year.value - 1) / 400);
-    self_days_since_0 += days_since_year_start[month.value];
-    if (((year.value % 4 == 0 && year.value % 100 != 0) || year.value == 400) && month.value > 2) { self_days_since_0 += 1; }
-    self_days_since_0 += day.value;
+    days_since_zero = 365 * (year.value - 1) +
+        ((year.value - 1) / 4) -
+        ((year.value - 1) / 100) +
+        ((year.value - 1) / 400);
 
-    other_days_since_0 = 365 * (other.year.value - 1) +
-                        ((other.year.value - 1) / 4) -
-                        ((other.year.value - 1) / 100) +
-                        ((other.year.value - 1) / 400);
-    other_days_since_0 += days_since_year_start[month.value];
-    if (((other.year.value % 4 == 0 && other.year.value % 100 != 0) || other.year.value == 400) && other.month.value > 2) { other_days_since_0 += 1; }
-    other_days_since_0 += other.day.value;
+    days_since_zero += days_since_year_start[month.value];
+    if (((year.value % 4 == 0 && year.value % 100 != 0) || year.value == 400) && month.value > 2) { days_since_zero += 1; }
+    days_since_zero += day.value;
+
+    return days_since_zero;
+}
+
+int Date::daysBetween(Date other) {
+    int self_days_since_0 = (*this).daysSinceZero();
+    int other_days_since_0 = other.daysSinceZero();
 
     return std::abs(self_days_since_0 - other_days_since_0);
 }

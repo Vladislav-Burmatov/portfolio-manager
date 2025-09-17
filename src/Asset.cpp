@@ -104,6 +104,7 @@ double Asset::getPriceOnDate(Date target_date, DatePolicy policy) {
             if (days_between_next < days_between_prev) { return it->price; }
             return std::prev(it)->price;
     }
+    throw std::runtime_error("Wrong Date Policy");
 }
 
 double Asset::getYields(Date starting_date, Date ending_date) {

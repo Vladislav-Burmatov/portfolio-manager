@@ -20,7 +20,9 @@ struct Date {
     bool operator<=(const Date& other) const;
     bool operator>=(const Date& other) const;
 
-    int Date::daysBetween(const Date& other_date);
+    int daysSinceZero() const;
+
+    int daysBetween(Date other_date);
 
     static Date fromString(const std::string& s);
 
