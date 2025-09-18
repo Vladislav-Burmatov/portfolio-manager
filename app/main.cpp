@@ -49,4 +49,6 @@ int main() {
 	for (int i = 0; i < returns.size(); i++) {
 		std::cout << returns[i] << "\n";
 	}
+
+	std::cout << "\n" << A.getVolatility(Asset::ReturnType::Logarithmic) << "\n";
  }

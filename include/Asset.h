@@ -53,6 +53,10 @@ public:
     double getAverageReturn(Date starting_date, Date ending_date, AverageType average_type);
 
     double getAverageReturn(AverageType average_type);
+
+    double getVolatility(Date starting_date, Date ending_date, ReturnType returns);
+
+    double getVolatility(ReturnType returns);
 };
 
 #endif

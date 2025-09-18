@@ -219,3 +219,37 @@ double Asset::getAverageReturn(AverageType average_type) {
 
     return this->getAverageReturn(first_date, last_date, average_type);
 }
+
+double Asset::getVolatility(Date starting_date, Date ending_date, ReturnType returns) {
+    if (history_.empty() || history_.size() < 3) {
+        throw std::runtime_error("History of " + ticker_ + " is too short");
+    }
+
+    std::vector<double> return_vector = this->getReturnArray(starting_date, ending_date, returns);
+    double average_return = 0;
+
+    switch (returns) {
+    case(ReturnType::Simple):
+        average_return = this->getAverageReturn(starting_date, ending_date, AverageType::Arithmetic);
+        break;
+    case(ReturnType::Logarithmic):
+        average_return = this->getAverageReturn(starting_date, ending_date, AverageType::Logarithmic);
+        break;
+    }
+
+    double quadratic_deviation = 0;
+    double return_at_date = 0;
+
+    for (int i = 0; i < return_vector.size(); i++) {
+        return_at_date = return_vector[i];
+        quadratic_deviation += (return_at_date - average_return) * (return_at_date - average_return);
+    }
+
+    quadratic_deviation = quadratic_deviation / (return_vector.size() - 1);
+
+    return std::sqrt(quadratic_deviation);
+}
+
+double Asset::getVolatility(ReturnType returns) {
+    return this->getVolatility(this->getFirstDate(), this->getLastDate(), returns);
+}
