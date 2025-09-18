@@ -17,14 +17,19 @@ public:
     Asset(const std::string& name_, const std::string& ticker_);
 
     std::string name();
+
     std::string ticker();
+
     std::vector<double> prices();
+
     std::vector<Date> dates();
+
     std::vector<PriceRecord> history();
 
     size_t getHistoryLength();
 
     Date getFirstDate();
+
     Date getLastDate();
 
     void loadFromFile();
@@ -39,7 +44,11 @@ public:
 
     double getPriceOnDate(Date date, DatePolicy policy);
 
-    double getReturnBetweenDates(Date starting, Date ending, DatePolicy policy, ReturnType returns);
+    std::vector<double> getReturnArray(Date starting_date, Date ending_date, ReturnType returns);
+
+    std::vector<double> getReturnArray(ReturnType returns);
+
+    double getReturnBetweenDates(Date starting_date, Date ending_date, DatePolicy policy, ReturnType returns);
 
     double getAverageReturn(Date starting_date, Date ending_date, AverageType average_type);
 

@@ -14,10 +14,15 @@ struct Date {
     Date(int m, int d, int y);
 
     bool operator==(const Date& other) const;
+
     bool operator!=(const Date& other) const;
+
     bool operator<(const Date& other) const;
+
     bool operator>(const Date& other) const;
+
     bool operator<=(const Date& other) const;
+
     bool operator>=(const Date& other) const;
 
     int daysSinceZero() const;

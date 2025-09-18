@@ -120,6 +120,45 @@ double Asset::getReturnBetweenDates(Date starting_date, Date ending_date, DatePo
     }
 }
 
+std::vector<double> Asset::getReturnArray(Date starting_date, Date ending_date, ReturnType returns) {
+    if (starting_date >= this->getLastDate() || ending_date <= this->getFirstDate()) {
+        throw std::runtime_error("History between " + starting_date.toString() + " and " + ending_date.toString() + " is too short");
+    }
+
+    std::vector<double> return_vector;
+
+    auto it = std::lower_bound(history_.begin(), history_.end(), starting_date,
+        [](const PriceRecord& record, const Date& date) { return record.date < date; });
+
+    switch (returns) {
+    case ReturnType::Simple:
+        while (std::next(it) != history_.end()) {
+            if (std::next(it)->date <= ending_date) {
+                return_vector.push_back((std::next(it)->price) / (it->price) - 1);
+                ++it;
+            }
+        }
+        break;
+    case ReturnType::Logarithmic:
+        while (std::next(it) != history_.end()) {
+            if (std::next(it)->date <= ending_date) {
+                return_vector.push_back(std::log((std::next(it)->price) / (it->price)));
+                ++it;
+            }
+        }
+        break;
+    }
+    return return_vector;
+}
+
+std::vector<double> Asset::getReturnArray(ReturnType returns) {
+    if (history_.empty() || history_.size() < 2) {
+        throw std::runtime_error("History of " + ticker_ + " is too short");
+    }
+    
+    return getReturnArray(this->getFirstDate(), this->getLastDate(), returns);
+}
+
 double Asset::getAverageReturn(Date starting_date, Date ending_date, AverageType average_type) {
     if (starting_date >= this->getLastDate() || ending_date <= this->getFirstDate()) {
         throw std::runtime_error("History between " + starting_date.toString() + " and " + ending_date.toString() + " is too short");
@@ -137,7 +176,7 @@ double Asset::getAverageReturn(Date starting_date, Date ending_date, AverageType
     case AverageType::Arithmetic:
         while (std::next(it) != history_.end()) {
             if (std::next(it)->date <= ending_date) {
-                result += ((std::next(it)->price) - (it->price)) / (it->price);
+                result += (std::next(it)->price) / (it->price) - 1;
                 number_of_elements++;
                 ++it;
             }

@@ -41,5 +41,12 @@ int main() {
 	std::cout << "New functions \n";
 	std::cout << A.getAverageReturn(Asset::AverageType::Arithmetic) << " ";
 	std::cout << A.getAverageReturn(Asset::AverageType::Logarithmic) << " ";
-	std::cout << A.getAverageReturn(Asset::AverageType::Geometric);
+	std::cout << A.getAverageReturn(Asset::AverageType::Geometric) << "\n";
+
+	std::vector<double> returns;
+	returns = A.getReturnArray(Asset::ReturnType::Simple);
+	std::cout << returns.size() << "\n";
+	for (int i = 0; i < returns.size(); i++) {
+		std::cout << returns[i] << "\n";
+	}
  }
