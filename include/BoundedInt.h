@@ -4,16 +4,18 @@
 #include <string>
 #include <iostream>
 
-template <int lower_bound, int higher_bound>
+template <int lower_bound, int upper_bound>
 class BoundedInt {
 public:
 	int value;
 
 	explicit BoundedInt(int v) {
-		if (v < lower_bound || v > higher_bound) {
+		if (lower_bound > upper_bound) { throw std::runtime_error("Lower bound can not exceed upper bound"); }
+
+		if (v < lower_bound || v > upper_bound) {
 			throw std::runtime_error("Value " + std::to_string(v) + 
 				" is outside of range [" + std::to_string(lower_bound) + 
-				", " + std::to_string(higher_bound) + "]");
+				", " + std::to_string(upper_bound) + "]");
 		}
 		value = v;
 	}
@@ -40,7 +42,7 @@ public:
 
 		if (!is) { return is; }
 
-		if (tmp < lower_bound || tmp > higher_bound) {
+		if (tmp < lower_bound || tmp > upper_bound) {
 			is.setstate(std::ios::failbit);
 		}
 		else { b.value = tmp; }
