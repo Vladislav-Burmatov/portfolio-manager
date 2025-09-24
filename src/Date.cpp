@@ -31,14 +31,14 @@ int Date::daysSinceZero() const {
     int days_since_zero;
     std::vector<int> days_since_year_start = { 0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
-    days_since_zero = 365 * (year.value - 1) +
-        ((year.value - 1) / 4) -
-        ((year.value - 1) / 100) +
-        ((year.value - 1) / 400);
+    days_since_zero = 365 * (year.value() - 1) +
+        ((year.value() - 1) / 4) -
+        ((year.value() - 1) / 100) +
+        ((year.value() - 1) / 400);
 
-    days_since_zero += days_since_year_start[month.value];
-    if (((year.value % 4 == 0 && year.value % 100 != 0) || year.value == 400) && month.value > 2) { days_since_zero += 1; }
-    days_since_zero += day.value;
+    days_since_zero += days_since_year_start[month.value()];
+    if (((year.value() % 4 == 0 && year.value() % 100 != 0) || year.value() == 400) && month.value() > 2) { days_since_zero += 1; }
+    days_since_zero += day.value();
 
     return days_since_zero;
 }
