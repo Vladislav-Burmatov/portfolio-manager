@@ -1,16 +1,16 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 #include "Asset.h"
 
 int main() {
-
 	/*Date d1(8, 31, 2025);
 	Date d2(8, 29, 2025);
 	Date d3(9, 2, 2025);
 	std::cout << d1.daysSinceZero() << " " << d2.daysSinceZero() << " " << d3.daysSinceZero() << " ";*/
 
-	Date d(9, 12, 2015);
+	/*Date d(9, 12, 2015);
 	Date d1(8, 29, 2025);
 	Date d2(9, 2, 2025);
 
@@ -50,5 +50,5 @@ int main() {
 		std::cout << returns[i] << "\n";
 	}
 
-	std::cout << "\n" << A.getVolatility(Asset::ReturnType::Logarithmic) << "\n";
+	std::cout << "\n" << A.getVolatility(Asset::ReturnType::Logarithmic) << "\n";*/
  }

@@ -179,38 +179,29 @@ INSTANTIATE_TEST_SUITE_P(
     CaseName_Comparison
 );
 
+// Testing input from stream for BoundedInt
 
-struct TestCase_Input {
-    std::string input_string;
-    int expected_value;
-    ExpectedOutcome outcome;
-    std::string name;
-};
-
-std::string CaseName_Input(const testing::TestParamInfo<TestCase_Input>& info) {
-    return info.param.name;
-}
-
-class BoundedIntTester_Input : public ::testing::TestWithParam<TestCase_Input> {};
-
-inline void PrintTo(const TestCase_Input& c, std::ostream* os) {
-    *os << "(input_string=\"" << c.input_string << "\", "
-        << "expected_value=" << c.expected_value << ", "
-        << "expected_outcome=" << (c.outcome == ExpectedOutcome::Value ? "Value" : "Exception") << ", "
-        << "name=" << c.name;
-}
-
-TEST_P(BoundedIntTester_Input, Input) {
-    auto param = GetParam();
-    std::istringstream iss(param.input_string);
+TEST(BoundedIntTest_Input, ValidReading) {
+    std::istringstream iss("10");
     NormalBoundedInt b(1);
+    iss >> b;
+    EXPECT_EQ(b.value(), 10);
+}
 
-    if (param.outcome == ExpectedOutcome::Value) {
-        iss >> b;
-        EXPECT_FALSE(iss.fail());
-        EXPECT_EQ(b.value(), param.expected_value);
-    }
-    else if (param.outcome == ExpectedOutcome::Exception) {
-        EXPECT_TRUE(iss.fail());
-    }
+TEST(BoundedIntTest_Input, InvalidReading) {
+    std::istringstream iss("0");
+    NormalBoundedInt b(1);
+    iss >> b;
+    EXPECT_TRUE(iss.fail());
+}
+
+// Testing output of BoundedInt to stream
+
+TEST(BoundedIntTest_Output, CorrectOutput) {
+    std::string s = "10";
+    std::ostringstream oss;
+    NormalBoundedInt b(10);
+
+    oss << b;
+    EXPECT_EQ(oss.str(), "10");
 }
